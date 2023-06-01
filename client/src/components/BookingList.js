@@ -12,29 +12,19 @@ const BookingList = ({bookings, removeBooking, setBookings}) => {
   }
 
   const handleUpdate = (booking) => {
-    const payload = {checkedIn: !checkedIn}
+    const payload = {checkedIn: !booking.checkedIn}
     updateBooking(payload, booking._id)
-    // find the booking we want to update 
-    // make a copy of it
     const bookingToChange = bookings.find((existingBooking) => {
       return existingBooking._id === booking._id
     })
-    // make a copy of the array of bookings 
-    // remove and replace the booking to be updated
-
     const copyOfBookingToChange = {... bookingToChange}
-    copyOfBookingToChange.checkedIn = true
+    copyOfBookingToChange.checkedIn = !copyOfBookingToChange.checkedIn
 
     const newBookings = bookings.filter((existingBooking) => {
       return existingBooking._id !== booking._id
     })
-
     const allNewBookings = [...newBookings, copyOfBookingToChange]
-    // then set the new state with the new array
     setBookings(allNewBookings)
-    // .then(() => {
-    //   setBookings() //add new bookings
-    // })
   }
 
   const bookingElements = bookings.map((booking) => {
@@ -42,7 +32,7 @@ const BookingList = ({bookings, removeBooking, setBookings}) => {
       <li className='list-item' key={booking._id}>
         <p>{booking.name}</p>
         <p>{booking.email}</p>
-        {booking.checkedIn ? <p>Checked in</p> : <button onClick={() => handleUpdate(booking)}>Check In</button>}
+        {booking.checkedIn ? <button onClick={() => handleUpdate(booking)} className="red">Check Out</button> : <button onClick={() => handleUpdate(booking)} className="green">Check In</button>}
         <button onClick={() => handleDelete(booking)}>Delete Booking</button>
       </li>
     )
