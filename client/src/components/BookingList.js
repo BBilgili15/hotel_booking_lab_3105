@@ -32,7 +32,7 @@ const BookingList = ({bookings, removeBooking, setBookings}) => {
       <li className='list-item' key={booking._id}>
         <p>{booking.name}</p>
         <p>{booking.email}</p>
-        {booking.checkedIn ? <button onClick={() => handleUpdate(booking)} className="red">Check Out</button> : <button onClick={() => handleUpdate(booking)} className="green">Check In</button>}
+        {booking.checkedIn ? <button onClick={() => handleUpdate(booking)} className="green">Checked In</button> : <button onClick={() => handleUpdate(booking)} className="red">Checked Out</button>}
         <button onClick={() => handleDelete(booking)}>Delete Booking</button>
       </li>
     )
