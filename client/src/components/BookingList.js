@@ -4,6 +4,7 @@ import { deleteBooking, updateBooking } from '../BookingService'
 
 const BookingList = ({bookings, removeBooking, setBookings}) => {
 
+
   const handleDelete = (booking) => {
     deleteBooking(booking._id).then(() => {
       removeBooking(booking._id)
@@ -11,15 +12,26 @@ const BookingList = ({bookings, removeBooking, setBookings}) => {
   }
 
   const handleUpdate = (booking) => {
-    const payload = {checkedIn: true}
+    const payload = {checkedIn: !checkedIn}
     updateBooking(payload, booking._id)
     // find the booking we want to update 
     // make a copy of it
+    const bookingToChange = bookings.find((existingBooking) => {
+      return existingBooking._id === booking._id
+    })
     // make a copy of the array of bookings 
     // remove and replace the booking to be updated
-    const newBookings = [...bookings]
-    // then set the new state with the nnew array
-    setBookings(bookings)
+
+    const copyOfBookingToChange = {... bookingToChange}
+    copyOfBookingToChange.checkedIn = true
+
+    const newBookings = bookings.filter((existingBooking) => {
+      return existingBooking._id !== booking._id
+    })
+
+    const allNewBookings = [...newBookings, copyOfBookingToChange]
+    // then set the new state with the new array
+    setBookings(allNewBookings)
     // .then(() => {
     //   setBookings() //add new bookings
     // })

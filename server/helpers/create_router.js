@@ -52,6 +52,7 @@ const createRouter = function (collection) {
   router.put('/:id', (req, res) => {
     const id = req.params.id
     const updatedData = req.body
+    delete updatedData._id // you can't update an ID on Mongo DB 
     collection.updateOne(
       {_id: ObjectID(id)},
       {$set: updatedData}
